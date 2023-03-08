@@ -54,8 +54,8 @@ namespace KurWebApi.Concrete
                 highsOfLastMonth.Add(new HighsOfLastMonthModel
                 {
                     ExchangeRateName = $"{maxExchangeRate.CurrencyCode}",
-                    ExchangePrice = $"{maxExchangeRate.MaxExchangeRate.Item1.ToShortDateString()}",
-                    ExchangeRateDate = $"{maxExchangeRate.MaxExchangeRate.Item3}"
+                    ExchangePrice = $"{maxExchangeRate.MaxExchangeRate.Item3}",
+                    ExchangeRateDate = $"{maxExchangeRate.MaxExchangeRate.Item1.ToShortDateString()}"
                 });
             }
 

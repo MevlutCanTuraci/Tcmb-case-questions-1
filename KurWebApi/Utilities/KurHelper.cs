@@ -5,7 +5,14 @@ namespace KurWebApi.Utilities
 {
     public class KurHelper
     {
+        /// <summary>
+        /// TCMB'nin based api url adresi
+        /// </summary>
         private const string _apiUrl = "http://www.tcmb.gov.tr/kurlar/{0}.xml";
+
+        /// <summary>
+        /// İstenilen tarihte kur yoksa, kaç kez geriye gideceğini belirler.
+        /// </summary>
         private const int _exchRateAttempts = 5;
 
         public string ApiUrl { get; set; }
@@ -14,11 +21,17 @@ namespace KurWebApi.Utilities
         /// Çekilecek kurun tarihi.
         /// </summary>
         public DateTime CurrencyDate { get; set; }
-        
-        
+
+
+        /// <summary>
+        /// Gerçekten çekilen kurun tarihi.
+        /// </summary>
         public DateTime ActualCurrencyDate { get; set; }
 
-        
+
+        /// <summary>
+        /// Çekilen kurun xml formatında tutulduğu nesne.
+        /// </summary>
         public XmlDocument XmlDoc { get; set; }
 
         
@@ -28,6 +41,10 @@ namespace KurWebApi.Utilities
         }
 
 
+        /// <summary>
+        /// TCMB'den kur bilgilerini çeker.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public void LoadExchangeRates()
         {
             ActualCurrencyDate = CurrencyDate;
@@ -48,10 +65,6 @@ namespace KurWebApi.Utilities
                     {
                         ActualCurrencyDate = ActualCurrencyDate.AddDays(-1);
                     }
-                    else
-                    {
-                        Console.WriteLine("Kur bilgisi bulunamadı!");
-                    }
                 }
             }
 
@@ -63,6 +76,12 @@ namespace KurWebApi.Utilities
         }
 
 
+        /// <summary>
+        /// Xml içerisinde ki istenilen veriyi currency'e çevirip geriye döndürülmektedir.
+        /// </summary>
+        /// <param name="currency"></param>
+        /// <param name="exchRateType"></param>
+        /// <returns></returns>
         public Decimal GetExchRate(string currency, ExchRateType exchRateType)
         {
             // eğer daha önce load edilmemiş ise bu aşamada yapılır
@@ -71,7 +90,7 @@ namespace KurWebApi.Utilities
                 LoadExchangeRates();
             }
 
-            // TCMB noktayı (.) ondalık ayracı olarak kullanıyor.
+            // TCMB noktayı '.' ondalık ayırıcısı olarak kullanır. Bu yüzden noktayı virgüle çeviriyoruz.
             // string'den decimal'e çevrim sırasında windows region ayarlarından etkilenmeden doğru çevrilmesi için en-us culture'ı kullanılır
             System.Globalization.CultureInfo culInfo = new System.Globalization.CultureInfo("en-US", true);
 
@@ -83,9 +102,18 @@ namespace KurWebApi.Utilities
         }
 
 
+        /// <summary>
+        /// Kur'un çekileceği tarih için url oluşturuluyor.
+        /// </summary>
         private void CreateApiUrl() => ApiUrl = String.Format(KurHelper._apiUrl, ActualCurrencyDate.ToString("yyyyMM") + "/" + ActualCurrencyDate.ToString("ddMMyyyy"));
 
 
+
+        /// <summary>
+        /// Enum'da istenilen veriyi, xml içerisinde ki kolon adı geriye döndürülür.
+        /// </summary>
+        /// <param name="exchRateType"></param>
+        /// <returns></returns>
         private string GetExchRateTypeNodeStr(ExchRateType exchRateType)
         {
             string ret = string.Empty;

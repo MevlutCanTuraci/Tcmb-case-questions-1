@@ -3,21 +3,32 @@
 @{
     ViewData["Title"] = "Home page";
 }
-@*
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>*@
 
+<div id="alerts" class="mb-4"></div>
 
-<div class="card">
+<div class="card mb-5">
     <div class="card-body">
-        <p>Kurlari çekmek için aşağıdaki butona tıklayın ve bekleyiniz. </p> 
+        <p>2 Şubat 2023 ile 5 Mart 2023 Kurlarını getirir ve Google Charts'da en yüksek kurları gösterir. Alt kısımda tablo halinde bütün kurları gösterir.</p>
         <button class="btn btn-outline-success" id="GetKur">Kurları Getir</button>
-        <button class="btn btn-outline-success" id="GetGrafik">Grafik getir</button>
+        <button class="btn btn-outline-success" id="ExportToExcel">Excel'e çıktı al.</button>
+
     </div>
 </div>
 
 
-<div id="chart_div"></div>
+<div id="allExcahngeRates" class="mb-5">
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    Yüklenen bütün kurları göster.
+                </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body" id="allExchangeData"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div id="chart_div"></div>
